@@ -6,18 +6,17 @@ STUNAME = 张三
 GITFLAGS = -q --author='tracer-ics2026 <tracer@njuics.org>' --no-verify --allow-empty
 
 # prototype: git_commit(msg)
+# Development tracking disabled: not enrolled in the course.
+# The original definition auto-ran `git add` + `git commit` on every
+# compile/run/gdb invocation (see nemu/scripts/native.mk), which pollutes
+# the history with `tracer-ics2026` commits. Overridden to a no-op.
 define git_commit
-	-@git add $(NEMU_HOME)/.. -A --ignore-errors
-	-@while (test -e .git/index.lock); do sleep 0.1; done
-	-@(echo "> $(1)" && echo $(STUID) $(STUNAME) && uname -a && uptime) | git commit -F - $(GITFLAGS)
-	-@sync
 endef
 
 _default:
 	@echo "Please run 'make' under subprojects."
 
 submit:
-	git gc
-	STUID=$(STUID) STUNAME=$(STUNAME) bash -c "$$(curl -s http://why.ink:8080/static/submit.sh)"
+	@echo "submit is disabled: not enrolled in the course."
 
 .PHONY: default submit
